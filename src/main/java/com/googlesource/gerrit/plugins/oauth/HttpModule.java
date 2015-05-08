@@ -53,6 +53,14 @@ class HttpModule extends HttpPluginModule {
     }
 
     cfg = cfgFactory.getFromGerritConfig(
+            pluginName + GitCafeOAuthService.CONFIG_SUFFIX);
+    if (cfg.getString("client-id") != null) {
+        bind(OAuthServiceProvider.class)
+            .annotatedWith(Exports.named(GitCafeOAuthService.CONFIG_SUFFIX))
+            .to(GitCafeOAuthService.class);
+    }
+
+    cfg = cfgFactory.getFromGerritConfig(
         pluginName + BitbucketOAuthService.CONFIG_SUFFIX);
     if (cfg.getString(InitOAuth.CLIENT_ID) != null) {
       bind(OAuthServiceProvider.class)
